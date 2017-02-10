@@ -13,7 +13,7 @@ const ConnectedRouter = React.createClass({
     routes: React.PropTypes.arrayOf(React.PropTypes.shape({
       path: React.PropTypes.string,
       exact: React.PropTypes.bool,
-      component: React.PropTypes.element
+      component: React.PropTypes.function
     }))
   },
 
@@ -46,22 +46,22 @@ const ConnectedRouter = React.createClass({
   }
 })
 
-function routerMiddleware(history) {
+const routerMiddleware = function routerMiddleware(history) {
   return () => next => action => {
     if (action.type !== ROUTER_ACTION) return next(action)
     history[action.payload.method](...action.payload.args)
   }
 }
 
-function routerReducer(state = null, action) {
+const routerReducer = function routerReducer(state = null, action) {
   return action.type === LOCATION_CHANGE ? action.payload : state
 }
 
-function locationChange(payload) {
+const locationChange = function locationChange(payload) {
   return { type: LOCATION_CHANGE, payload }
 }
 
-function updateLocation(method) {
+const updateLocation = function updateLocation(method) {
   return (...args) => ({
     type: ROUTER_ACTION,
     payload: { method, args }
