@@ -1,6 +1,6 @@
 {
   "name": "react-router-redux-bind",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Redux bindings for React Router Next v4",
   "main": "index.js",
   "scripts": {
@@ -13,12 +13,15 @@
   "keywords": [
     "react",
     "router",
+    "redux",
+    "redux-saga",
+    "history",
     "route",
     "routing",
-    "history",
     "link",
-    "redux",
-    "connect"
+    "connect",
+    "isomorphic",
+    "universal"
   ],
   "author": "MaxSvargal",
   "license": "MIT",

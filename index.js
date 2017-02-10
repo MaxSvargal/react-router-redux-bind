@@ -17,17 +17,11 @@ const ConnectedRouter = React.createClass({
     }))
   },
 
-  getRouteMatch(pathname) {
-    return !this.props.routes ? null : this.props.routes
-      .map(({ path }) => ReactRouter.matchPath(pathname, path, { exact: true }))
-      .filter(r => r !== null)[0] || null
-  },
-
   componentWillMount() {
     const locationHandle = () =>
       this.props.store.dispatch(locationChange({
         location: this.props.history.location,
-        match: this.getRouteMatch(this.props.history.location.pathname)
+        match: getRouteMatch(this.props.routes, this.props.history.location.pathname)
       }))
 
     this.unlisten = this.props.history.listen(locationHandle)
@@ -46,6 +40,12 @@ const ConnectedRouter = React.createClass({
   }
 })
 
+const getRouteMatch = function getRouteMatch(routes, pathname) {
+  return !routes ? null : routes
+    .map(({ path }) => ReactRouter.matchPath(pathname, path, { exact: true }))
+    .filter(r => r !== null)[0] || null
+}
+
 const routerMiddleware = function routerMiddleware(history) {
   return () => next => action => {
     if (action.type !== ROUTER_ACTION) return next(action)
@@ -53,12 +53,24 @@ const routerMiddleware = function routerMiddleware(history) {
   }
 }
 
-const routerReducer = function routerReducer(state = null, action) {
+const routerReducer = function routerReducer(state = { location: { pathname: null }, match: null }, action) {
   return action.type === LOCATION_CHANGE ? action.payload : state
 }
 
 const locationChange = function locationChange(payload) {
   return { type: LOCATION_CHANGE, payload }
+}
+
+const setLocation = function setLocation(url, routes) {
+  return {
+    type: LOCATION_CHANGE,
+    payload: {
+      location: {
+        pathname: url
+      },
+      match: getRouteMatch(routes, url)
+    }
+  }
 }
 
 const updateLocation = function updateLocation(method) {
@@ -74,8 +86,11 @@ const go = updateLocation('go')
 const goBack = updateLocation('goBack')
 const goForward = updateLocation('goForward')
 
+exports.LOCATION_CHANGE = LOCATION_CHANGE
+exports.ROUTER_ACTION = ROUTER_ACTION
 exports.ConnectedRouter = ConnectedRouter
-exports.locationChange = locationChange
+exports.getRouteMatch = getRouteMatch
+exports.setLocation = setLocation
 exports.routerReducer = routerReducer
 exports.routerMiddleware = routerMiddleware
 exports.router = { push, replace, go, goBack, goForward }

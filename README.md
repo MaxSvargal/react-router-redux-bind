@@ -56,20 +56,49 @@ export default [
 
 And after action `LOCATION_CHANGE`
 ```javascript
-  store.dispatch(router.push('/topics/1'))
+store.dispatch(router.push('/topics/1'))
 
-  expect(store.getState()).toEqual({
-    router: {
-      location: {
-        pathname: '/topics/1'
+expect(store.getState()).toEqual({
+  router: {
+    location: {
+      pathname: '/topics/1'
+    },
+    match: {
+      params: {
+        id: '1'
       },
-      match: {
-        params: {
-          id: '1'
-        },
-        path: '/topics/:id',
-        url: '/topics/1'
-      }
+      path: '/topics/:id',
+      url: '/topics/1'
     }
-  })
+  }
+})
+```
+
+## Server side
+Just use [`<StaticRouter />`](https://reacttraining.com/react-router/#staticrouter) and dispatch `setLocation` action creator, pass request url and [route config](https://github.com/ReactTraining/react-router/blob/v4/packages/react-router-website/modules/examples/RouteConfig.js).
+
+```javascript
+  const routes = require('./routes')
+  const { request: { url } } = ctx // koa.js
+  store.dispatch(setLocation(url, routes)
+```
+
+
+## Use it with [redux-saga](https://github.com/redux-saga/redux-saga)
+
+```javascript
+export function* saga() {
+  while (true) {
+    try {
+      const { payload: { match: { path } } } = yield take(LOCATION_CHANGE)
+      if (path === '/some') {
+        const collection = yield call(fetchSomeCollection)
+        yield put(setSomeCollection(collection))
+        yield put(router.push('/another'))
+      }
+    } catch (err) {
+      yield call(onError, err)
+    }
+  }
+}
 ```
