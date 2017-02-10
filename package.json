@@ -1,6 +1,6 @@
 {
   "name": "react-router-redux-bind",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Redux bindings for React Router Next v4",
   "main": "index.js",
   "scripts": {

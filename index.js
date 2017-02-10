@@ -42,7 +42,7 @@ const ConnectedRouter = React.createClass({
 
 const getRouteMatch = function getRouteMatch(routes, pathname) {
   return !routes ? null : routes
-    .map(({ path }) => ReactRouter.matchPath(pathname, path, { exact: true }))
+    .map(r => ReactRouter.matchPath(pathname, r.path, { exact: true }))
     .filter(r => r !== null)[0] || null
 }
 
