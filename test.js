@@ -3,29 +3,39 @@ const ReactTestUtils = require('react-addons-test-utils')
 const configureStore = require('redux-mock-store').default
 const ReactRouter = require('react-router')
 const createHistory = require('history').createMemoryHistory
-const { ConnectedRouter, routerMiddleware, router } = require('./index.js')
 
-const history = createHistory()
-const renderer = ReactTestUtils.createRenderer()
-const mockStore = configureStore([ routerMiddleware(history) ])
+const {
+  ConnectedRouter,
+  routerMiddleware,
+  router,
+  routerReducer,
+  setLocation
+} = require('./index.js')
+
 const routes = [ { path: '/', exact: true }, { path: '/foo/:id' } ]
+const children = React.createElement('div')
 
 describe('ReactRouterReduxBind', () => {
+  let history
+  let renderer
   let store
   let element
   let component
   let result
 
   beforeEach(() => {
-    store = mockStore({})
-    element = React.createElement(ConnectedRouter, { history, store, routes })
+    history = createHistory()
+    renderer = ReactTestUtils.createRenderer()
+    store = configureStore([ routerMiddleware(history) ])({})
+    element = React.createElement(ConnectedRouter, { history, store, routes }, children)
     component = renderer.render(element)
     result = renderer.getRenderOutput()
   })
 
   test('should render ReactRouter correctly', () => {
     expect(result.type).toBe(ReactRouter.Router)
-    expect(result.props).toEqual({ history })
+    expect(result.props.history).toEqual(history)
+    expect(result.props.children.type).toEqual('div')
   })
 
   test('should directly calls of history methods works correctly', () => {
@@ -65,6 +75,12 @@ describe('ReactRouterReduxBind', () => {
     expect(history.location.state).toEqual({ from: '/' })
   })
 
+  test('should unlisten history after unmount', () => {
+    renderer.unmount()
+    router.push('/foo')
+    expect(result.props.history.length).toBe(1)
+  })
+
   test('should router actions works correctly', () => {
     expect(router.push('/foo')).toEqual(
       { type: 'ROUTER_ACTION', payload: { method: 'push', args: [ '/foo' ] } })
@@ -80,5 +96,65 @@ describe('ReactRouterReduxBind', () => {
 
     expect(router.goForward()).toEqual(
       { type: 'ROUTER_ACTION', payload: { method: 'goForward', args: [] } })
+  })
+
+  test('should routerReducer return default value', () => {
+    const action = { type: 'RANDOM', payload: {} }
+    const expected = { location: { pathname: null }, match: null }
+    expect(routerReducer(undefined, action)).toEqual(expected)
+  })
+
+  test('should routerReducer store location', () => {
+    const action = {
+      type: 'LOCATION_CHANGE',
+      payload: {
+        location: { pathname: '/foo' },
+        match: { path: '/foo', url: '/foo' }
+      }
+    }
+    expect(routerReducer({}, action)).toEqual(action.payload)
+  })
+
+  test('should setLocation work correctly', () => {
+    const action = setLocation('/foo/1', routes)
+    const expected = {
+      type: 'LOCATION_CHANGE',
+      payload: {
+        location: { pathname: '/foo/1' },
+        match: {
+          isExact: true,
+          path: '/foo/:id',
+          url: '/foo/1',
+          params: {
+            id: '1'
+          }
+        }
+      }
+    }
+    expect(action).toEqual(expected)
+  })
+
+  test('should setLocation return match as null when no match', () => {
+    const action = setLocation('/bar', routes)
+    const expected = {
+      type: 'LOCATION_CHANGE',
+      payload: {
+        location: { pathname: '/bar' },
+        match: null
+      }
+    }
+    expect(action).toEqual(expected)
+  })
+
+  test('should setLocation return match as null when no routes', () => {
+    const action = setLocation('/bar')
+    const expected = {
+      type: 'LOCATION_CHANGE',
+      payload: {
+        location: { pathname: '/bar' },
+        match: null
+      }
+    }
+    expect(action).toEqual(expected)
   })
 })
