@@ -3,6 +3,7 @@ logs
 *.log
 npm-debug.log*
 /index.js
+.coveralls.yml
 
 # Runtime data
 pids
