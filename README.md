@@ -1,7 +1,8 @@
 # react-router-redux-bind
 
-[![Dependencies Status](https://coveralls.io/repos/github/MaxSvargal/react-router-redux-bind/badge.svg?branch=master)](https://coveralls.io/github/MaxSvargal/react-router-redux-bind?branch=master)
-![Coverage Status](https://david-dm.org/MaxSvargal/react-router-redux-bind.svg)
+[![Build Status](https://travis-ci.org/MaxSvargal/react-router-redux-bind.svg?branch=master)](https://travis-ci.org/MaxSvargal/react-router-redux-bind)
+[![Coverage Status](https://coveralls.io/repos/github/MaxSvargal/react-router-redux-bind/badge.svg?branch=master)](https://coveralls.io/github/MaxSvargal/react-router-redux-bind?branch=master)
+![Dependencies Status](https://david-dm.org/MaxSvargal/react-router-redux-bind.svg)
 
 Redux bindings for React Router Next v4
 
