@@ -80,7 +80,7 @@ Just use [`<StaticRouter />`](https://reacttraining.com/react-router/#staticrout
 ```javascript
   const routes = require('./routes')
   const { request: { url } } = ctx // koa.js
-  store.dispatch(setLocation(url, routes)
+  store.dispatch(setLocation(url, routes))
 ```
 
 
