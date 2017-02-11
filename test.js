@@ -3,7 +3,6 @@ const ReactTestUtils = require('react-addons-test-utils')
 const configureStore = require('redux-mock-store').default
 const ReactRouter = require('react-router')
 const createHistory = require('history').createMemoryHistory
-
 const { ConnectedRouter, routerMiddleware, router } = require('./index.js')
 
 const history = createHistory()
