@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/MaxSvargal/react-router-redux-bind.svg?branch=master)](https://travis-ci.org/MaxSvargal/react-router-redux-bind)
 [![Coverage Status](https://coveralls.io/repos/github/MaxSvargal/react-router-redux-bind/badge.svg?branch=master)](https://coveralls.io/github/MaxSvargal/react-router-redux-bind?branch=master)
-![Dependencies Status](https://david-dm.org/MaxSvargal/react-router-redux-bind.svg)
+[![Dependencies Status](https://david-dm.org/MaxSvargal/react-router-redux-bind.svg)](https://david-dm.org/MaxSvargal/react-router-redux-bind)
 
 Redux bindings for React Router Next v4
 
@@ -11,7 +11,7 @@ Redux bindings for React Router Next v4
 
 
 ## Tutorial
-A simple example connecting to redux
+A simple example of connecting to redux
 
 ```javascript
 import React from 'react'
@@ -40,7 +40,7 @@ render(
 )
 ```
 
-## Actions call
+## Actions
 ```javascript
 import { router } from 'react-router-redux-bind'
 
