@@ -2,8 +2,8 @@ import { ROUTER_ACTION } from './actions'
 
 const routerMiddleware = history =>
   () => next => action => {
-    const { type, payload: { method, args } } = action
-    if (type !== ROUTER_ACTION) return next(action)
+    if (action.type !== ROUTER_ACTION) return next(action)
+    const { payload: { method, args } } = action
     history[method](...args)
   }
 
