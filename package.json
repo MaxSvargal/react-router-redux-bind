@@ -1,6 +1,6 @@
 {
   "name": "react-router-redux-bind",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Redux bindings for React Router Next v4",
   "main": "index.js",
   "module": "src/index.js",
@@ -8,6 +8,7 @@
     "test": "npm run build && jest --coverage",
     "coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
     "build": "rollup -c rollup.config.js",
+    "postinstall": "npm run build",
     "prepublish": "npm run build"
   },
   "repository": {
