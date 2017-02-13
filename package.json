@@ -8,8 +8,7 @@
     "test": "npm run build && jest --coverage",
     "coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
     "build": "rollup -c rollup.config.js",
-    "postinstall": "npm run build",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -35,8 +34,7 @@
   },
   "homepage": "https://github.com/MaxSvargal/react-router-redux-bind#readme",
   "peerDependencies": {
-    "react": ">=15",
-    "react-router": ">=4"
+    "react": ">=15"
   },
   "dependencies": {
     "history": "^4.5.1"
