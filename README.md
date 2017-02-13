@@ -20,11 +20,18 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import { createBrowserHistory } from 'history'
 import { Route } from 'react-router'
-import { ConnectedRouter, routerMiddleware, routerReducer } from 'react-router-redux-bind'
+
+import {
+  ConnectedRouter,
+  routerMiddleware,
+  routerReducer as router
+} from 'react-router-redux-bind'
+
+import reducers from './reducers'
 import routes from './routes'
 
 const history = createBrowserHistory()
-const reducers = combineReducers({ ...reducer, router: routerReducer })
+const reducers = combineReducers({ ...reducers, router })
 const middleware = routerMiddleware(history)
 const store = createStore(reducers, applyMiddleware(middleware))
 
@@ -46,6 +53,9 @@ import { router } from 'react-router-redux-bind'
 
 store.dispatch(router.push('/'))
 store.dispatch(router.replace({ pathname: '/foo/1', search: { from: '/' } }))
+store.dispatch(router.go(-2)
+store.dispatch(router.goBack()
+store.dispatch(router.goForward()
 ```
 
 ## Routes

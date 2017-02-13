@@ -1,4 +1,3 @@
-import rollup from 'rollup'
 import buble from 'rollup-plugin-buble'
 
 export default {
