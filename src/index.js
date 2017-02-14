@@ -1,21 +1,4 @@
-import ConnectedRouter from './component'
-import routerMiddleware from './middleware'
-import routerReducer from './reducer'
-import {
-  locationChange,
-  router,
-  setLocation,
-  LOCATION_CHANGE,
-  ROUTER_ACTION
-} from './actions'
-
-export {
-  ConnectedRouter,
-  locationChange,
-  router,
-  setLocation,
-  routerMiddleware,
-  routerReducer,
-  LOCATION_CHANGE,
-  ROUTER_ACTION
-}
+export { default as ConnectedRouter } from './component'
+export { default as routerMiddleware } from './middleware'
+export { default as routerReducer } from './reducer'
+export { locationChange, router, setLocation, LOCATION_CHANGE, ROUTER_ACTION } from './actions'
